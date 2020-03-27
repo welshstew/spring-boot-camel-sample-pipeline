@@ -1,0 +1,32 @@
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: springboot-pipeline-sample
+    build: springboot-pipeline-sample
+    name: springboot-pipeline-sample
+    template: ocp-pipeline-template
+    type: pipeline
+  name: springboot-pipeline-sample
+  namespace: cicd
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: {}
+  output: {}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: >-
+        https://github.com/welshstew/spring-boot-camel-sample-pipeline
+    sourceSecret:
+      name: github-secret
+    type: Git
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: Jenkinsfile
+    type: JenkinsPipeline
+  successfulBuildsHistoryLimit: 5
