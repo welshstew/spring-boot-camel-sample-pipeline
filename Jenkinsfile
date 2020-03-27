@@ -101,7 +101,8 @@ pipeline {
 
                 sh  '''
                 printenv
-                mvn -s /home/jenkins/nexus/settings.xml versions:set -DnewVersion=${newVersion}
+                mvn -s /home/jenkins/nexus/settings.xml versions:set -DnewVersion=1.0.${BUILD_ID}
+                mvn -s /home/jenkins/nexus/settings.xml clean install deploy
                 '''
             }
             post {
