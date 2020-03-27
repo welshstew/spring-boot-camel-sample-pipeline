@@ -26,6 +26,17 @@
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
     </properties>
 
+    <distributionManagement>
+        <snapshotRepository>
+         <id>mynexus</id>
+         <url>http://nas25c3f7.lan:10081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+         <id>mynexus</id>
+         <url>http://nas25c3f7.lan:10081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
