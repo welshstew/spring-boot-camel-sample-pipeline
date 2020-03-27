@@ -49,8 +49,8 @@ pipeline {
 
         MAVEN_MIRROR_URL = "http://nas25c3f7.lan:10081/repository/maven-public/"
 
-        MAVEN_SERVER_USERNAME = NEXUS_CREDENTIALS_USR
-        MAVEN_SERVER_PASSWORD = NEXUS_CREDENTIALS_PSW
+        MAVEN_SERVER_USERNAME = "${NEXUS_CREDENTIALS_USR}"
+        MAVEN_SERVER_PASSWORD = "${NEXUS_CREDENTIALS_PSW}"
 
         // PRE_TAG = "${JOB_NAME}.${BUILD_NUMBER}"
         // JENKINS_TAG = "${PRE_TAG}".substring("${PRE_TAG}".lastIndexOf("/") + 1)
