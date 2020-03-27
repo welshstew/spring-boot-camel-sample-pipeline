@@ -94,7 +94,7 @@ pipeline {
 
                 sh  '''
                 printenv
-                mvn versions:set -DnewVersion=${newVersion}
+                mvn -s /home/jenkins/nexus/settings.xml versions:set -DnewVersion=${newVersion}
                 '''
             }
             post {
