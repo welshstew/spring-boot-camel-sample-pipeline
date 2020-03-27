@@ -86,7 +86,7 @@ pipeline {
         stage("Build Java App") {
             agent {
                 node { 
-                    label "jenkins-slave-mvn"
+                    label "maven"
                 }
             }
             steps {
