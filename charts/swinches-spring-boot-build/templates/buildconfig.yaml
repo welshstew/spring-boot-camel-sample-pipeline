@@ -1,0 +1,36 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {{ include "swinches-spring-boot-build.fullname" . }}
+  labels:
+{{ include "swinches-spring-boot-build.labels" . | indent 4 }}
+spec:
+  output:
+    to:
+      kind: DockerImage
+      name: {{ .Values.registry_url }}/{{ .Values.app_name }}:{{ .Values.app_version }}
+  resources:
+    limits:
+      memory: {{ .Values.build_memory_limit }}
+    requests:
+      memory: {{ .Values.build_memory_request }}
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      env:
+      - name: BUILD_LOGLEVEL
+        value: "5"
+      forcePull: true
+      from:
+        kind: ImageStreamTag
+        name: fuse7-java-openshift:{{ .Values.builder_version }}
+        namespace: {{ .Values.image_stream_namespace }}
+      incremental: true
+    type: Source
+  triggers:
+  - generic:
+      secret: gYYIi5Cd-a_whLvXN-ZR
+    type: Generic
+
