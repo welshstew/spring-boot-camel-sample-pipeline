@@ -1,7 +1,7 @@
 openshift.withCluster() {
   env.APP_NAME = "simple-camel"
   env.ARTIFACT_ID= "springboot-camel-ex"
-  env.MAVEN_LOCATION = "com/codergists/springboot-camel-ex/"
+  env.MAVEN_LOCATION = "com/codergists/springboot-camel-ex"
   env.PIPELINES_NAMESPACE = "cicd"
   env.BUILD_NAMESPACE = "dev"
   env.DEV_NAMESPACE = "dev"
