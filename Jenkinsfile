@@ -1,5 +1,5 @@
 openshift.withCluster() {
-  env.APP_NAME = "swinches-boot-camel"
+  env.APP_NAME = "simple-camel"
   env.PIPELINES_NAMESPACE = "cicd"
   env.BUILD_NAMESPACE = "dev"
   env.DEV_NAMESPACE = "dev"
@@ -121,9 +121,15 @@ pipeline {
             steps {
                 echo 'deploy the helm chart to create the build objects for this application'
 
+                // let's work with the expectation that the build chart is already installed
+                // if it doesn't exist, then fail and tell user to create it
+                // if it does exist upgrade the chart - but just with the app_version to increase
+                // the image tag
+
                 sh  '''
                 printenv
-                helm install simple ./charts/swinches-spring-boot-build
+                NEW_APP_VERSION=1.0.$BUILD_ID
+                helm upgrade --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build
                 '''
             }
             post {
