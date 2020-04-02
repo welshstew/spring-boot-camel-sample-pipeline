@@ -112,6 +112,27 @@ pipeline {
             }
         }
 
+        stage("Create Build objects in Openshift") {
+            agent {
+                node { 
+                    label "jenkins-slave-helm"
+                }
+            }
+            steps {
+                echo 'deploy the helm chart to create the build objects for this application'
+
+                sh  '''
+                printenv
+                helm install simple ./charts/swinches-spring-boot-build
+                '''
+            }
+            post {
+                failure {
+                    notifyBuild('FAIL')
+                }
+            }
+        }
+
 
 
 
