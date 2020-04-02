@@ -131,7 +131,7 @@ pipeline {
                 sh  '''
                 printenv
                 NEW_APP_VERSION=1.0.$BUILD_ID
-                helm upgrade --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build -n $DEV_NAMESPACE
+                helm upgrade --resuse-values --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build -n $DEV_NAMESPACE
                 '''
             }
             post {
