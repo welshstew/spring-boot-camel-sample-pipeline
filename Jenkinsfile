@@ -154,7 +154,7 @@ pipeline {
                         openshift.withProject( "${DEV_NAMESPACE}" ) {
                             echo "Using project: ${openshift.project()}"
                             sh '''
-                                oc start-build ${APP_NAME} --from-file=$MAVEN_MIRROR_URL/$MAVEN_LOCATION/1.0.$BUILD_ID/$ARTIFACT_ID-1.0.$BUILD_ID.jar --follow -n ${BUILD_NAMESPACE}
+                                oc start-build ${APP_NAME}-binary-build --from-file=$MAVEN_MIRROR_URL/$MAVEN_LOCATION/1.0.$BUILD_ID/$ARTIFACT_ID-1.0.$BUILD_ID.jar --follow -n ${BUILD_NAMESPACE}
                             '''
                         }
                     }
