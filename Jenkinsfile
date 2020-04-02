@@ -1,5 +1,7 @@
 openshift.withCluster() {
   env.APP_NAME = "simple-camel"
+  env.ARTIFACT_ID= "springboot-camel-ex"
+  env.MAVEN_LOCATION = "com/codergists/springboot-camel-ex/"
   env.PIPELINES_NAMESPACE = "cicd"
   env.BUILD_NAMESPACE = "dev"
   env.DEV_NAMESPACE = "dev"
@@ -112,14 +114,14 @@ pipeline {
             }
         }
 
-        stage("Create Build objects in Openshift") {
+        stage("Helm change docker image tag") {
             agent {
                 node { 
                     label "jenkins-slave-helm"
                 }
             }
             steps {
-                echo 'deploy the helm chart to create the build objects for this application'
+                echo 'upgrading the helm chart to push to a different docker tag'
 
                 // let's work with the expectation that the build chart is already installed
                 // if it doesn't exist, then fail and tell user to create it
@@ -139,6 +141,31 @@ pipeline {
             }
         }
 
+        stage("Openshift - build image and push to external registry") {
+            agent {
+                node {
+                    label "master"
+                }
+            }
+            steps {
+                echo '❤️ Build docker image'
+                script{
+                    openshift.withCluster() {
+                        openshift.withProject( "${DEV_NAMESPACE}" ) {
+                            echo "Using project: ${openshift.project()}"
+                            sh '''
+                                oc start-build ${APP_NAME} --from-file=$MAVEN_MIRROR_URL/$MAVEN_LOCATION/1.0.$BUILD_ID/$ARTIFACT_ID-1.0.$BUILD_ID.jar --follow -n ${BUILD_NAMESPACE}
+                            '''
+                        }
+                    }
+                } 
+            }
+            post {
+                failure {
+                    notifyBuild('FAIL')
+                }
+            }
+        }
 
 
 
