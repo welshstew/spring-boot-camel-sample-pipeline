@@ -127,11 +127,13 @@ pipeline {
                 // if it doesn't exist, then fail and tell user to create it
                 // if it does exist upgrade the chart - but just with the app_version to increase
                 // the image tag
+              
+              //helm upgrade --reuse-values --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build -n $DEV_NAMESPACE
 
                 sh  '''
                 printenv
                 NEW_APP_VERSION=1.0.$BUILD_ID
-                helm upgrade --reuse-values --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build -n $DEV_NAMESPACE
+                helm install --set app_version=$NEW_APP_VERSION $APP_NAME ./charts/binary-build -n $DEV_NAMESPACE
                 '''
             }
             post {
